@@ -1,0 +1,50 @@
+Program My;
+const 
+	Pi = 3;
+type
+	int = integer;
+	MyProc = procedure(i:integer);
+	MyFunc = function(x,y:integer):integer;
+var
+	g, h: integer; 
+
+procedure DoAdd(a,b: integer; var r: integer);
+begin
+  r := a + b;
+end;
+
+function Sum(a,b: integer): integer;
+begin
+  Result := a + b;
+end;
+
+Begin
+	write();
+	read(a,b);
+	begin
+		read(k);
+		begin
+			write();
+		end;
+	end;
+	;
+	;
+	a:=5;	
+	flag:=true;
+	a:=b+c;
+	b:=g*57+f;
+	n:=b*(c+6);
+	
+	j:=(a+b);
+	i:=(a)-6;
+	k:=(((a)+(b))+c);
+
+	res:=Myfunc(a,b);
+
+	result:=Func(a, b-3, M(1));
+
+	result:=Func(a, b-3, M(1)) + F(a,b) - 6;
+
+	MyProc(a-1, result, Myfunc(y,6));
+
+End.
