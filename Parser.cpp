@@ -4,7 +4,7 @@
 
 using namespace std;
 
-// Проверка лексемы
+// РџСЂРѕРІРµСЂРєР° Р»РµРєСЃРµРјС‹
 bool Parser::CheckLex(string s) {
     
     auto lexeme = L.FSM();
@@ -18,7 +18,7 @@ bool Parser::CheckLex(string s) {
     return false;
 }
 
-// Проверка лексемы с откатом
+// РџСЂРѕРІРµСЂРєР° Р»РµРєСЃРµРјС‹ СЃ РѕС‚РєР°С‚РѕРј
 bool Parser::CheckLex2(string s) {
 
     auto lexeme = L.FSM();
@@ -39,7 +39,7 @@ void Parser::backtrack(streampos s) {
     auto sz = right - s;
     auto buf = string(sz , ' ');
     L.in.clear();
-    L.in.seekg(s, ios::beg);  // откатились
+    L.in.seekg(s, ios::beg);  // РѕС‚РєР°С‚РёР»РёСЃСЊ
     L.in.read(buf.data(), sz);
     int n = std::count(buf.begin(), buf.end(), '\n');
 
@@ -86,7 +86,7 @@ bool Parser::PROG()
 
 bool Parser::TEXT_OF_PROG()
 {
-    auto saved_pos = L.in.tellg();  // Сохраняем текущую позицию курсора, так как есть ветвление
+    auto saved_pos = L.in.tellg();  // РЎРѕС…СЂР°РЅСЏРµРј С‚РµРєСѓС‰СѓСЋ РїРѕР·РёС†РёСЋ РєСѓСЂСЃРѕСЂР°, С‚Р°Рє РєР°Рє РµСЃС‚СЊ РІРµС‚РІР»РµРЅРёРµ
     if (DESCR_BLOCK()) {      
         if(CheckLex("begin")) {
             if (OPERATIONS()) {
@@ -97,7 +97,7 @@ bool Parser::TEXT_OF_PROG()
         }
     }
 
-    backtrack(saved_pos);           // Если не прошла первая ветка, возвращаем курсор на сохраненную в начале позицию 
+    backtrack(saved_pos);           // Р•СЃР»Рё РЅРµ РїСЂРѕС€Р»Р° РїРµСЂРІР°СЏ РІРµС‚РєР°, РІРѕР·РІСЂР°С‰Р°РµРј РєСѓСЂСЃРѕСЂ РЅР° СЃРѕС…СЂР°РЅРµРЅРЅСѓСЋ РІ РЅР°С‡Р°Р»Рµ РїРѕР·РёС†РёСЋ 
     
     if(CheckLex("begin")) {
         if (OPERATIONS()) {
@@ -109,40 +109,40 @@ bool Parser::TEXT_OF_PROG()
 
     backtrack(saved_pos);                          
     
-    return false;                   // Если ни одна ветка не вернула true, значит ошибка
+    return false;                   // Р•СЃР»Рё РЅРё РѕРґРЅР° РІРµС‚РєР° РЅРµ РІРµСЂРЅСѓР»Р° true, Р·РЅР°С‡РёС‚ РѕС€РёР±РєР°
 }
 
 bool Parser::DESCR_BLOCK()
 {
-    auto saved_pos = L.in.tellg();  // Сохраняем текущую позицию курсора, так как есть ветвление
+    auto saved_pos = L.in.tellg();  // РЎРѕС…СЂР°РЅСЏРµРј С‚РµРєСѓС‰СѓСЋ РїРѕР·РёС†РёСЋ РєСѓСЂСЃРѕСЂР°, С‚Р°Рє РєР°Рє РµСЃС‚СЊ РІРµС‚РІР»РµРЅРёРµ
     if(CheckLex("const")) {
         if (CONST_FIRST()) {
             return true;
         }
     }
         
-    backtrack(saved_pos);           // Если не прошла первая ветка, возвращаем курсор на сохраненную в начале позицию
+    backtrack(saved_pos);           // Р•СЃР»Рё РЅРµ РїСЂРѕС€Р»Р° РїРµСЂРІР°СЏ РІРµС‚РєР°, РІРѕР·РІСЂР°С‰Р°РµРј РєСѓСЂСЃРѕСЂ РЅР° СЃРѕС…СЂР°РЅРµРЅРЅСѓСЋ РІ РЅР°С‡Р°Р»Рµ РїРѕР·РёС†РёСЋ
 
     if(CheckLex("type")) {
         if (TYPE_FIRST()) {
             return true;
         }
     }
-    backtrack(saved_pos);           // Если не прошла вторая ветка, возвращаем курсор на сохраненную в начале позицию
+    backtrack(saved_pos);           // Р•СЃР»Рё РЅРµ РїСЂРѕС€Р»Р° РІС‚РѕСЂР°СЏ РІРµС‚РєР°, РІРѕР·РІСЂР°С‰Р°РµРј РєСѓСЂСЃРѕСЂ РЅР° СЃРѕС…СЂР°РЅРµРЅРЅСѓСЋ РІ РЅР°С‡Р°Р»Рµ РїРѕР·РёС†РёСЋ
 
     if(CheckLex("var")) {
         if (VAR_FIRST()) {
             return true;
         }
     }
-    backtrack(saved_pos);           // Если не прошла третья ветка, возвращаем курсор на сохраненную в начале позицию
+    backtrack(saved_pos);           // Р•СЃР»Рё РЅРµ РїСЂРѕС€Р»Р° С‚СЂРµС‚СЊСЏ РІРµС‚РєР°, РІРѕР·РІСЂР°С‰Р°РµРј РєСѓСЂСЃРѕСЂ РЅР° СЃРѕС…СЂР°РЅРµРЅРЅСѓСЋ РІ РЅР°С‡Р°Р»Рµ РїРѕР·РёС†РёСЋ
 
     if (PROC_FUNC()) {
         return true;
     }
     backtrack(saved_pos);                               
 
-    return false;                   // Если ни одна ветка не вернула true
+    return false;                   // Р•СЃР»Рё РЅРё РѕРґРЅР° РІРµС‚РєР° РЅРµ РІРµСЂРЅСѓР»Р° true
 
 }
 
@@ -150,20 +150,20 @@ bool Parser::CONST_FIRST()
 {
     auto saved_pos = L.in.tellg();
     if (DESCRCONSTS()) {
-        auto saved_pos1 = L.in.tellg();  // Сохраняем курсор после одинаковой части во всех ветках
+        auto saved_pos1 = L.in.tellg();  // РЎРѕС…СЂР°РЅСЏРµРј РєСѓСЂСЃРѕСЂ РїРѕСЃР»Рµ РѕРґРёРЅР°РєРѕРІРѕР№ С‡Р°СЃС‚Рё РІРѕ РІСЃРµС… РІРµС‚РєР°С…
         if(CheckLex("type")) {
             if (TYPE_FIRST()) {
                 return true;
             }
         }
-        backtrack(saved_pos1);          // Возвращаем курсор для проверки других веток
+        backtrack(saved_pos1);          // Р’РѕР·РІСЂР°С‰Р°РµРј РєСѓСЂСЃРѕСЂ РґР»СЏ РїСЂРѕРІРµСЂРєРё РґСЂСѓРіРёС… РІРµС‚РѕРє
 
         if(CheckLex("var")) {
             if (VAR_FIRST()) {
                 return true;
             }
         }   
-        backtrack(saved_pos1);          // Возвращаем курсор для проверки других веток 
+        backtrack(saved_pos1);          // Р’РѕР·РІСЂР°С‰Р°РµРј РєСѓСЂСЃРѕСЂ РґР»СЏ РїСЂРѕРІРµСЂРєРё РґСЂСѓРіРёС… РІРµС‚РѕРє 
 
         if (PROC_FUNC()) {
             return true;
@@ -182,7 +182,7 @@ bool Parser::TYPE_FIRST()
 {
     auto saved_pos = L.in.tellg();
     if (DESCRTYPES()) {
-        auto saved_pos1 = L.in.tellg();  // Сохраняем курсор после одинаковой части во всех ветках
+        auto saved_pos1 = L.in.tellg();  // РЎРѕС…СЂР°РЅСЏРµРј РєСѓСЂСЃРѕСЂ РїРѕСЃР»Рµ РѕРґРёРЅР°РєРѕРІРѕР№ С‡Р°СЃС‚Рё РІРѕ РІСЃРµС… РІРµС‚РєР°С…
         if(CheckLex("var")) {
             if (VAR_FIRST()) {
                 return true;
@@ -493,12 +493,12 @@ bool Parser::PROC()
     auto saved_pos = L.in.tellg();
     if(CheckLex("procedure")) {
         if(CheckLex("ID")) {
-            auto saved_pos2 = L.in.tellg();     // первый сейв
+            auto saved_pos2 = L.in.tellg();     // РїРµСЂРІС‹Р№ СЃРµР№РІ
             if(CheckLex("(")) {
                 if (PARAMS()) {
                     if(CheckLex(")")) {
                         if(CheckLex(";")) {
-                            auto saved_pos3 = L.in.tellg();     // второй сейв
+                            auto saved_pos3 = L.in.tellg();    // РІС‚РѕСЂРѕР№ СЃРµР№РІ
                             if (DESCR_BLOCK()) {                        
                                 if(CheckLex("begin")) {
                                     if (OPERATIONS()) {
@@ -528,7 +528,7 @@ bool Parser::PROC()
             backtrack(saved_pos2);
 
             if(CheckLex(";")) {
-                auto saved_pos4 = L.in.tellg();     // третий сейв
+                auto saved_pos4 = L.in.tellg();     // С‚СЂРµС‚РёР№ СЃРµР№РІ
                 if (DESCR_BLOCK()) {                    
                     if (CheckLex("begin")) {
                         if (OPERATIONS()) {
@@ -564,14 +564,14 @@ bool Parser::FUNC()
     auto saved_pos = L.in.tellg();
     if(CheckLex("function")) {
         if(CheckLex("ID")) {
-            auto saved_pos2 = L.in.tellg();             // первый сейв
+            auto saved_pos2 = L.in.tellg();             // РїРµСЂРІС‹Р№ СЃРµР№РІ
             if(CheckLex("(")) {
                 if (PARAMS()) {
                     if(CheckLex(")")) {
                         if(CheckLex(":")) {
                             if (TYPE_OF_VAR()) {
                                 if(CheckLex(";")) {
-                                    auto saved_pos3 = L.in.tellg();              // второй сейв
+                                    auto saved_pos3 = L.in.tellg();              // РІС‚РѕСЂРѕР№ СЃРµР№РІ
                                     if (DESCR_BLOCK()) {                
                                         if(CheckLex("begin")) {
                                             if (OPERATIONS()) {
@@ -604,7 +604,7 @@ bool Parser::FUNC()
             if (CheckLex(":")) {
                 if (TYPE_OF_VAR()) {
                     if (CheckLex(";")) {
-                        auto saved_pos4 = L.in.tellg();              // третий сейв
+                        auto saved_pos4 = L.in.tellg();              // С‚СЂРµС‚РёР№ СЃРµР№РІ
                         if (DESCR_BLOCK()) {                        
                             if (CheckLex("begin")) {
                                 if (OPERATIONS()) {
@@ -763,7 +763,7 @@ bool Parser::ASSIGN()
                 return true;
             }
 
-            auto saved_pos2 = L.in.tellg(); //
+            auto saved_pos2 = L.in.tellg();
             if(CheckLex("true")) {
                 return true;
             }
@@ -838,7 +838,7 @@ bool Parser::FACTOR()
     auto saved_pos = L.in.tellg();
     if(CheckLex("ID")) {
         auto saved_pos2 = L.in.tellg();  
-        if(CheckLex("(")) {                 // Вызов функции
+        if(CheckLex("(")) {                 // Р’С‹Р·РѕРІ С„СѓРЅРєС†РёРё
             if (FACT_PARAMS()) {
                 if(CheckLex(")")) {
                     return true;
